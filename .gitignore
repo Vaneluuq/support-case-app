@@ -1,0 +1,28 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Node
+node_modules/
+build/
+.env.local
+
+# Docker
+.dockerignore
+
+# Environment variables (CRITICAL: DO NOT COMMIT!)
+.env
+
+# SQLite database file (will be created in backend/sql_app.db)
+*.db
+# Or specifically if you define a path in backend/.env.example:
+# backend/sql_app.db
+
+# IDEs
+.idea/
+.vscode/
+
+# Logs
+*.log
