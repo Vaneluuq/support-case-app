@@ -12,8 +12,8 @@ WORKDIR /app/frontend
 COPY package.json package-lock.json ./
 
 # Invalidar caché: Este truco ayuda a que Docker no use caché de capas problemáticas
-# ARG CACHE_BREAKER=$(date +%s)
-# RUN echo $CACHE_BREAKER
+ARG CACHE_BREAKER=$(date +%s)
+RUN echo $CACHE_BREAKER
 
 # Instalamos las dependencias usando npm ci (limpio y consistente para CI/CD)
 # Asegúrate de que 'react-scripts' esté en las 'dependencies' o 'devDependencies' de tu package.json.
@@ -23,7 +23,7 @@ RUN npm ci
 COPY . .
 
 # Ejecutamos el build, forzando la inclusión de node_modules/.bin en el PATH para encontrar react-scripts
-RUN npm run build
+RUN export PATH=$(pwd)/node_modules/.bin:$PATH && npm run build
 
 # --------------- FASE DE SERVICIO (Serve Stage) ---------------
 FROM nginx:stable-alpine
