@@ -20,7 +20,7 @@ COPY . .
 
 # CAMBIO CLAVE AQUÍ: Asegúrate de que el comando de build se ejecute a través de yarn o npm
 # Si usas Yarn:
-RUN npm run build
+RUN yarn build
 # Si usas npm, descomenta la siguiente línea y comenta la de yarn:
 # RUN npm run build
 
