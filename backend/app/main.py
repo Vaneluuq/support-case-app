@@ -15,9 +15,13 @@ app = FastAPI(title="Support Case API")
 
 # Configuración de CORS para permitir que el frontend se conecte
 origins = [
-    "http://localhost:3000",  # Origen del frontend React en desarrollo
-    # Agrega aquí la URL de tu frontend desplegado en producción cuando sea el momento
-    # "https://tu-frontend-desplegado.vercel.app",
+    "http://localhost:3000",  # Sigue para desarrollo local
+    # ¡Añade aquí la URL de tu frontend desplegado en Render!
+    # Ejemplo (Render generará una similar):
+    "https://tu-app-frontend.onrender.com",
+    # Si tu backend y frontend están en el mismo dominio o subdominio de Render,
+    # Render a veces gestiona CORS automáticamente o no es necesario añadir el dominio completo.
+    # Sin embargo, es buena práctica añadir la URL explícitamente.
 ]
 
 app.add_middleware(

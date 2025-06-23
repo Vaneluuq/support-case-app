@@ -1,0 +1,56 @@
+# support-app/docker-compose.yml
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend # Construye la imagen usando el Dockerfile en la carpeta backend/
+    container_name: support-app-backend # Nombre fácil de reconocer para el contenedor
+    # El comando se define en el Dockerfile del backend, lo que es una buena práctica.
+    # Así, el Dockerfile es autocontenido para la lógica de inicio.
+    # command: sh -c "alembic upgrade head && gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000"
+    
+    # Monta el código fuente para que los cambios se reflejen sin reconstruir la imagen (hot-reload si el servidor lo soporta)
+    volumes:
+      - ./backend:/app/backend 
+      # Volumen para persistir el archivo SQLite. El archivo sql_app.db se creará dentro de /app/backend en el contenedor.
+      # Mapeamos el volumen 'sqlite_data' al WORKDIR del contenedor para el backend.
+      - sqlite_data:/app/backend/sql_app_data # Montamos en un subdirectorio para evitar conflictos con el código fuente
+    
+    # Mapea el puerto 8000 del contenedor al puerto 8000 de tu máquina local
+    ports:
+      - "8000:8000"
+    
+    # Pasa variables de entorno desde el archivo .env de la raíz a este servicio.
+    # Esto es donde la DATABASE_URL se define para el backend.
+    env_file:
+      - ./.env 
+
+  frontend:
+    build: ./frontend # Construye la imagen usando el Dockerfile en la carpeta frontend/
+    container_name: support-app-frontend # Nombre fácil de reconocer para el contenedor
+    
+    # Para desarrollo, puedes montar el código. Si usas 'npm start'/'yarn start' directamente
+    # en el contenedor (sin Nginx en el Dockerfile), esto permitiría hot-reload.
+    # Dado que estamos usando Nginx, la recarga se da con la reconstrucción y nuevo despliegue.
+    volumes:
+      - ./frontend:/app/frontend 
+    
+    # Mapea el puerto 80 (Nginx) del contenedor al puerto 3000 de tu máquina local
+    ports:
+      - "3000:80"
+    
+    # Indica que el frontend no debe iniciar hasta que el backend esté listo.
+    # Esto ayuda a prevenir errores de conexión al inicio.
+    depends_on:
+      - backend
+    
+    # Pasa variables de entorno desde el archivo .env de la raíz a este servicio.
+    # Esto es donde REACT_APP_API_BASE_URL se define para el frontend.
+    env_file:
+      - ./.env
+
+# Define el volumen que usaremos para la base de datos SQLite.
+# Esto asegura que tus datos SQLite persistan incluso si eliminas o recreas el contenedor del backend.
+volumes:
+  sqlite_data:
+    driver: local # Especifica el driver de volumen local

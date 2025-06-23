@@ -3,6 +3,7 @@
 __pycache__/
 *.pyc
 *.egg-info/
+.env.example
 
 # Node
 node_modules/
