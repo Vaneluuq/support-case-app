@@ -89,6 +89,21 @@ table tr:hover {
   background-color: #ddd;
 }
 
+.button-support {
+  margin-right: 5px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  color: #007bff;
+  border: none;
+}
+
+.button-support:hover {
+  background-color: white;
+}
+
+
 table button {
   margin-right: 5px;
   padding: 5px 10px;

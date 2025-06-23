@@ -32,7 +32,7 @@ function App() {
           editingCase={editingCase}
         />
         {editingCase && (
-          <button onClick={() => setEditingCase(null)}>Cancel Edit</button>
+          <button style={{marginTop: '10px'}} className="button-support" onClick={() => setEditingCase(null)}>Cancel Edit</button>
         )}
       </section>
       <section>

@@ -73,7 +73,7 @@ function CaseList({ API_BASE_URL, refreshList, onEditCase, onCaseDeleted }) {
             <td>{new Date(caseItem.created_at).toLocaleDateString()}</td>
             <td>
               <button onClick={() => onEditCase(caseItem)}>Edit</button>
-              <button onClick={() => handleDelete(caseItem.id)}>Delete</button>
+              <button style={{marginTop: '5px'}} onClick={() => handleDelete(caseItem.id)}>Delete</button>
             </td>
           </tr>
         ))}
