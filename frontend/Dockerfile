@@ -11,18 +11,14 @@ WORKDIR /app/frontend
 COPY package.json yarn.lock* ./
 
 # Instalamos las dependencias.
-RUN yarn install --frozen-lockfile
-# Si usas npm, descomenta la siguiente línea y comenta la de yarn:
-# RUN npm ci
+RUN npm ci
 
 # Copiamos el resto del código fuente de la aplicación React
 COPY . .
 
 # CAMBIO CLAVE AQUÍ: Asegúrate de que el comando de build se ejecute a través de yarn o npm
-# Si usas Yarn:
-RUN yarn build
 # Si usas npm, descomenta la siguiente línea y comenta la de yarn:
-# RUN npm run build
+RUN npm run build
 
 # --------------- FASE DE SERVICIO (Serve Stage) ---------------
 FROM nginx:stable-alpine
